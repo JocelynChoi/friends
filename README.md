@@ -1,5 +1,12 @@
 # **Instructions**
 
-* Spend a few moments looking over the code sent to you. First, get the server running, then begin to dissect the JavaScript code found at the bottom of `add.html`.
+A new friend can be posted to /app/friends after the survey is taken.
 
-* Explain to one another what the code does, what its for, and why its relevant to the application so far. Be sure to explain to one another what the `$.post` code is doing.
+
+
+//PSEUDOCODE
+Things to be done:
+The total number of points is calculated.
+The points must be compared to the other friends in the array.
+The number that is closest to the new friend is chosen.
+
