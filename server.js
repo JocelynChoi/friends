@@ -13,80 +13,94 @@ var PORT = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Star Wars Characters (DATA)
-// =============================================================
-var characters = [
-  {
-    routeName: "yoda",
-    name: "Yoda",
-    role: "Jedi Master",
-    age: 900,
-    forcePoints: 2000
-  },
-  {
-    routeName: "darthmaul",
-    name: "Darth Maul",
-    role: "Sith Lord",
-    age: 200,
-    forcePoints: 1200
-  },
-  {
-    routeName: "obiwankenobi",
-    name: "Obi Wan Kenobi",
-    role: "Jedi Master",
-    age: 55,
-    forcePoints: 1350
-  }
-];
 
 // Routes
 // =============================================================
 
 // Basic route that sends the user first to the AJAX Page
+//htmlRoutes.js
 app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "view.html"));
+  res.sendFile(path.join(__dirname, "home.html"));
 });
 
-app.get("/add", function(req, res) {
-  res.sendFile(path.join(__dirname, "add.html"));
+app.get("/survey", function(req, res) {
+  res.sendFile(path.join(__dirname, "survey.html"));
 });
 
 // Displays all characters
-app.get("/api/characters", function(req, res) {
-  return res.json(characters);
-});
+//apiRoutes.js
 
-// Displays a single character, or returns false
-app.get("/api/characters/:character", function(req, res) {
-  var chosen = req.params.character;
-
-  console.log(chosen);
-
-  for (var i = 0; i < characters.length; i++) {
-    if (chosen === characters[i].routeName) {
-      return res.json(characters[i]);
-    }
+// Star Wars Characters (DATA)
+//apiRoutes.js
+// =============================================================
+var friends = [
+  {
+    name: "Brad",
+    photo: "https://imagesvc.timeincapp.com/v3/mm/image?url=https%3A%2F%2Fpeopledotcom.files.wordpress.com%2F2017%2F04%2Fbrad-pitt-1.jpg%3Fw%3D450&w=700&q=85",
+    score: [5,1,4,4,5,1,2,5,4,1]
+  },
+  {
+    name: "Orlando",
+    photo: "https://imagesvc.timeincapp.com/v3/mm/image?url=https%3A%2F%2Fpeopledotcom.files.wordpress.com%2F2017%2F04%2Fbrad-pitt-1.jpg%3Fw%3D450&w=700&q=85",
+    score: [3,4,3,3,3,3,2,5,4,1]
+  },
+  {
+    name: "John",
+    photo: "https://imagesvc.timeincapp.com/v3/mm/image?url=https%3A%2F%2Fpeopledotcom.files.wordpress.com%2F2017%2F04%2Fbrad-pitt-1.jpg%3Fw%3D450&w=700&q=85",
+    score: [1,2,3,2,1,1,2,3,2,1]
   }
+];
 
-  return res.json(false);
+
+app.get("/api/friends", function(req, res) {
+  return res.json(friends);
 });
-
 // Create New Characters - takes in JSON input
-app.post("/api/characters", function(req, res) {
-  // req.body hosts is equal to the JSON post sent from the user
-  // This works because of our body-parser middleware
-  var newcharacter = req.body;
+app.post("/api/friends", function(req, res) {
+// //   // req.body hosts is equal to the JSON post sent from the user
+// //   // This works because of our body-parser middleware
+var newFriend = req.body;
 
-  // Using a RegEx Pattern to remove spaces from newCharacter
-  // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-  newcharacter.routeName = newcharacter.name.replace(/\s+/g, "").toLowerCase();
+// //   // Using a RegEx Pattern to remove spaces from newCharacter
+// //   // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+newFriend.routeName = newFriend.name.replace(/\s+/g, "").toLowerCase();
+console.log(newFriend);
+friends.push(newFriend);
+res.json(newFriend);
+ });
 
-  console.log(newcharacter);
+//  function total(){
+//  var array = [5,1,4,4,5,1,2,5,4,1];
+//   for (var i = 0, sum = 0; i < array.length; sum += array[i++]);
+//  }
+//  console.log (array);
+//  total();
 
-  characters.push(newcharacter);
 
-  res.json(newcharacter);
-});
+
+//function total() {
+
+//   // We will read the existing bank file
+//   fs.readFile("bank.txt", "utf8", function(err, data) {
+//     if (err) {
+//       return console.log(err);
+//     }
+
+//     // Break down all the numbers inside
+//     data = data.split(", ");
+//     var result = 0;
+
+//     // Loop through those numbers and add them together to get a sum.
+//     for (var i = 0; i < data.length; i++) {
+//       if (parseFloat(data[i])) {
+//         result += parseFloat(data[i]);
+//       }
+//     }
+
+//     // We will then print the final balance rounded to two decimal places.
+//     console.log("You have a total of " + result.toFixed(2));
+//   });
+// }
 
 // Starts the server to begin listening
 // =============================================================
